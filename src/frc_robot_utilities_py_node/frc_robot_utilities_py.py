@@ -5,15 +5,12 @@ import rospy
 from rio_control_node.msg import Motor_Status, Robot_Status
 from hmi_agent_node.msg import HMI_Signals
 from frc_robot_utilities_py_node.BufferedROSMsgHandlerPy import BufferedROSMsgHandlerPy
-from frc_robot_utilities_py_node.RobotStatusHelperPy import RobotStatusHelperPy
+from frc_robot_utilities_py_node.RobotStatusHelperPy import RobotStatusHelperPy, Alliance, RobotMode
 
 hmi_updates = BufferedROSMsgHandlerPy(HMI_Signals)
 
 robot_updates_internal = BufferedROSMsgHandlerPy(Robot_Status)
 robot_status = RobotStatusHelperPy(robot_updates_internal)
-
-motor_updates_internal = BufferedROSMsgHandlerPy(Motor_Status)
-# MotorStatusHelper motor_updates(motor_updates_internal);
 
 def register_for_robot_updates():
     global hmi_updates
@@ -23,4 +20,3 @@ def register_for_robot_updates():
     
     hmi_updates.register_for_updates("/HMISignals")
     robot_updates_internal.register_for_updates("/RobotStatus")
-    motor_updates_internal.register_for_updates("/MotorStatus")
