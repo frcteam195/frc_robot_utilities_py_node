@@ -1,6 +1,6 @@
 from enum import Enum
 from threading import Lock
-import frc_robot_utilities_py_node.BufferedROSMsgHandlerPy as BufferedROSMsgHandlerPy
+from frc_robot_utilities_py_node.BufferedROSMsgHandlerPy import BufferedROSMsgHandlerPy
 
 class Alliance(Enum):
     RED = 0
