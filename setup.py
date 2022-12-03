@@ -5,7 +5,7 @@ from catkin_pkg.python_setup import generate_distutils_setup
 
 # fetch values from package.xml
 setup_args = generate_distutils_setup(
-    packages=['frc_robot_utilities_py'],  #packages=['frc_robot_utilities_py_node', 'frc_robot_utilities_py_node.subnode'],
+    packages=['frc_robot_utilities_py_node'],  #packages=['frc_robot_utilities_py_node', 'frc_robot_utilities_py_node.subnode'],
     package_dir={'': 'src'})
 
 setup(**setup_args)
