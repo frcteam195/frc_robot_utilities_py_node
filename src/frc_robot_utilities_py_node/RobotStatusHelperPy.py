@@ -36,22 +36,33 @@ class RobotStatusHelperPy:
             finally:
                 self.__mutex.release()
 
-    def get_mode(self)->RobotMode:
+    def get_message(self) -> dict:
+        self.__update()
+        message = {
+            "robot_data": str(self.__robot_state),
+            "alliance": str(self.__alliance),
+            "match_time": self.__match_time,
+            "game_data": self.__game_data,
+            "selected_auto": self.__selected_auto
+        }
+        return message
+
+    def get_mode(self) -> RobotMode:
         self.__update()
         return self.__robot_state
 
-    def get_alliance(self)->Alliance:
+    def get_alliance(self) -> Alliance:
         self.__update()
         return self.__alliance
 
-    def get_match_time(self):
+    def get_match_time(self) -> float:
         self.__update()
         return self.__match_time
 
-    def get_game_data(self):
+    def get_game_data(self) -> str:
         self.__update()
         return self.__game_data
 
-    def get_selected_auto(self):
+    def get_selected_auto(self) -> int:
         self.__update()
         return self.__selected_auto
