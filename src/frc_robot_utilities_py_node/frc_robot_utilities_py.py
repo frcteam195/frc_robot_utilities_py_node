@@ -3,7 +3,7 @@
 import tf2_ros
 import rospy
 from rio_control_node.msg import Motor_Status, Robot_Status
-from hmi_agent_node.msg import HMI_Signals
+from ck_ros_msgs_node.msg import HMI_Signals
 from frc_robot_utilities_py_node.BufferedROSMsgHandlerPy import BufferedROSMsgHandlerPy
 from frc_robot_utilities_py_node.RobotStatusHelperPy import RobotStatusHelperPy, Alliance, RobotMode
 
