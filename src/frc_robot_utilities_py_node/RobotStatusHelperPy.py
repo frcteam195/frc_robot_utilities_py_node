@@ -1,6 +1,7 @@
 from enum import Enum
 from threading import Lock
 from frc_robot_utilities_py_node.BufferedROSMsgHandlerPy import BufferedROSMsgHandlerPy
+from ck_ros_base_msgs_node.msg import Robot_Status
 
 class Alliance(Enum):
     RED = 0
@@ -21,18 +22,20 @@ class RobotStatusHelperPy:
         self.__match_time = 0
         self.__game_data = ""
         self.__selected_auto = 0
+        self.__is_connected = False
         self.__mutex = Lock()
 
     def __update(self):
         if(self.__bufmsgobj.has_updated()):
             self.__mutex.acquire()
             try:
-                r_stat = self.__bufmsgobj.get()
+                r_stat : Robot_Status = self.__bufmsgobj.get()
                 self.__robot_state = RobotMode(r_stat.robot_state)
                 self.__alliance = Alliance(r_stat.alliance)
                 self.__match_time = r_stat.match_time
                 self.__game_data = r_stat.game_data
                 self.__selected_auto = r_stat.selected_auto
+                self.__is_connected = r_stat.is_connected
             finally:
                 self.__mutex.release()
 
@@ -43,7 +46,8 @@ class RobotStatusHelperPy:
             "alliance": str(self.__alliance),
             "match_time": self.__match_time,
             "game_data": self.__game_data,
-            "selected_auto": self.__selected_auto
+            "selected_auto": self.__selected_auto,
+            "is_connected": self.__is_connected
         }
         return message
 
@@ -66,3 +70,7 @@ class RobotStatusHelperPy:
     def get_selected_auto(self) -> int:
         self.__update()
         return self.__selected_auto
+
+    def is_connected(self) -> bool:
+        self.__update()
+        return self.__is_connected
