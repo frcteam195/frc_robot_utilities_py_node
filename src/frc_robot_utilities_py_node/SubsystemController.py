@@ -20,4 +20,4 @@ class SubsystemController(Generic[ControlClass, StatusClass]):
         if isinstance(msg, self.__orig_class__.__args__[0]):
             self.__publisher.publish(msg)
         else:
-            rospy.logerr("Invalid type passed to publish: %s", str(msg.__class__))
+            rospy.logerr("Invalid type passed to publish: %s. Type is supposed to be %s", str(msg.__class__), self.__orig_class__.__args__[0])
