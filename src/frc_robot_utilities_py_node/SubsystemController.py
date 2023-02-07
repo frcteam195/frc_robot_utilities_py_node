@@ -17,5 +17,7 @@ class SubsystemController(Generic[ControlClass, StatusClass]):
         return self.__status_handler.get()
 
     def publish(self, msg : ControlClass):
-        if isinstance(msg, ControlClass.__class__):
+        if isinstance(msg, self.__orig_class__.__args__[0]):
             self.__publisher.publish(msg)
+        else:
+            rospy.logerr("Invalid type passed to publish: %s", str(msg.__class__))
