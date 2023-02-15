@@ -81,12 +81,9 @@ def reset_robot_pose(x_inches=0, y_inches=0, heading_degrees=0):
     odom.pose.pose = pose.to_msg()
 
     pose_covariance = geometry.Covariance()
-    # pose_covariance.x_var = 0.001
-    # pose_covariance.y_var = 0.001
-    # pose_covariance.z_var = 0.001
-    # pose_covariance.yaw_var = 0.001
-    # pose_covariance.pitch_var = 0.001
-    # pose_covariance.roll_var = 0.001
+    pose_covariance.x_var = 0.01
+    pose_covariance.y_var = 0.01
+    pose_covariance.yaw_var = math.radians(1)
 
     odom.pose.covariance = pose_covariance.to_msg()
 
