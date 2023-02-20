@@ -13,7 +13,6 @@ class OdometryHelper(object):
             cls.__odometry_subscriber.register_for_updates("odometry/filtered")
         return cls.instance
 
-    @classmethod
     def get_facing_own_alliance(cls) -> bool:
         # Determine the alliance station the robot is facing.
         if cls.__odometry_subscriber.get() is not None:
