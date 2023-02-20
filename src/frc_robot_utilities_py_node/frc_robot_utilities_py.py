@@ -11,7 +11,8 @@ from frc_robot_utilities_py_node.BufferedROSMsgHandlerPy import BufferedROSMsgHa
 from frc_robot_utilities_py_node.RobotStatusHelperPy import RobotStatusHelperPy, Alliance, RobotMode
 from robot_localization.srv import SetPose
 
-from ck_utilities_py_node import geometry, ckmath
+from ck_utilities_py_node.geometry import *
+from ck_utilities_py_node.ckmath import *
 
 hmi_updates = BufferedROSMsgHandlerPy(HMI_Signals)
 
@@ -41,18 +42,18 @@ def reset_robot_pose_old(x_inches=0, y_inches=0, heading_degrees=0):
     odom.child_frame_id = 'base_link'
 
     # odom.pose.pose = geometry.Pose().to_msg()
-    position = geometry.Translation()
-    position.x = ckmath.inches_to_meters(x_inches)
-    position.y = ckmath.inches_to_meters(y_inches)
+    position = Translation()
+    position.x = inches_to_meters(x_inches)
+    position.y = inches_to_meters(y_inches)
     odom.pose.pose.position = position.to_msg()
 
-    orientation = geometry.Rotation()
+    orientation = Rotation()
     orientation.yaw = math.radians(heading_degrees)
     odom.pose.pose.orientation = orientation.to_msg_quat()
 
-    odom.twist.twist = geometry.Twist().to_msg()
+    odom.twist.twist = Twist().to_msg()
 
-    pose_covariance = geometry.Covariance()
+    pose_covariance = Covariance()
     # pose_covariance.x_var = 0.001
     # pose_covariance.y_var = 0.001
     # pose_covariance.z_var = 0.001
@@ -61,26 +62,29 @@ def reset_robot_pose_old(x_inches=0, y_inches=0, heading_degrees=0):
     # pose_covariance.roll_var = 0.001
 
     odom.pose.covariance = pose_covariance.to_msg()
-    odom.twist.covariance = geometry.Covariance().to_msg()
+    odom.twist.covariance = Covariance().to_msg()
 
     odom_publisher.publish(odom)
 
-def reset_robot_pose(x_inches=0, y_inches=0, heading_degrees=0):
+def reset_robot_pose(alliance : Alliance, x_inches=0, y_inches=0, heading_degrees=0):
     global set_pose
 
     odom = geometry_msgs.msg.PoseWithCovarianceStamped()
 
     odom.header.stamp = rospy.Time.now()
-    odom.header.frame_id = 'odom'
+    odom.header.frame_id = 'odom'        
     
-    pose = geometry.Pose()
-    pose.position.x = ckmath.inches_to_meters(x_inches)
-    pose.position.y = ckmath.inches_to_meters(y_inches)
+    pose = Pose()
+    pose.position.x = inches_to_meters(x_inches)
+    pose.position.y = inches_to_meters(y_inches)
     pose.orientation.yaw = math.radians(heading_degrees)
+
+    if alliance == Alliance.BLUE:
+        pose.orientation.yaw += math.pi
 
     odom.pose.pose = pose.to_msg()
 
-    pose_covariance = geometry.Covariance()
+    pose_covariance = Covariance()
     pose_covariance.x_var = 0.01
     pose_covariance.y_var = 0.01
     pose_covariance.yaw_var = math.radians(1)
