@@ -31,8 +31,6 @@ def register_for_robot_updates():
     robot_updates_internal.register_for_updates("/RobotStatus")
 
 def reset_robot_pose(alliance : Alliance, x_inches=0, y_inches=0, heading_degrees=0):
-    global set_pose
-
     odom = geometry_msgs.msg.PoseWithCovarianceStamped()
 
     odom.header.stamp = rospy.Time.now()
